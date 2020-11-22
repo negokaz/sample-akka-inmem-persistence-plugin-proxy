@@ -1,4 +1,4 @@
-name := "akka-quickstart-scala"
+name := "sample-akka-inmem-persistence-plugin-proxy"
 
 version := "1.0"
 
