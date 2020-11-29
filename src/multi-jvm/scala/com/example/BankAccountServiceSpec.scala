@@ -1,5 +1,6 @@
 package com.example
 
+import akka.persistence.journal.PersistencePluginProxy
 import akka.remote.testconductor.RoleName
 import akka.remote.testkit.{ MultiNodeConfig, MultiNodeSpec }
 import com.example.BankAccount.{ AccountBalance, BalanceChanged }
@@ -24,6 +25,10 @@ class BankAccountServiceSpecMultiJvm4 extends BankAccountServiceSpec
 
 class BankAccountServiceSpec extends MultiNodeSpec(BankAccountServiceSpecConfig) with ClusterMultiNodeSpec with Inside {
   import BankAccountServiceSpecConfig._
+
+  // node1 (first node) never shutdown while testing because it has the controller of multi-node-testkit.
+  // For more details see: https://doc.akka.io/docs/akka/2.6/multi-node-testing.html#things-to-keep-in-mind
+  PersistencePluginProxy.setTargetLocation(system, node(node1).address)
 
   "BankAccountService" should {
 
